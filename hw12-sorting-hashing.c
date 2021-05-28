@@ -162,7 +162,7 @@ void printArray(int *a)
 }
 
 
-int selectionSort(int *a)
+int selectionSort(int *a) //선택정렬
 {
 	int min;
 	int minindex;
@@ -175,18 +175,18 @@ int selectionSort(int *a)
 
 	for (i = 0; i < MAX_ARRAY_SIZE; i++)
 	{
-		minindex = i;
-		min = a[i];
-		for(j = i+1; j < MAX_ARRAY_SIZE; j++)
+		minindex = i; //가장 작은 값을 넣을 변수.
+		min = a[i]; //정렬되지 않은 첫번째 배열.
+		for(j = i+1; j < MAX_ARRAY_SIZE; j++) //가장 작은 값을 찾는다.
 		{
-			if (min > a[j])
+			if (min > a[j])//첫번째 위치보다 a[j]가 작은 경우.
 			{
-				min = a[j];
-				minindex = j;
+				min = a[j]; //min을 a[j]로 설정해준다.
+				minindex = j;//j를 가장 작은 값으로 지정해준다
 			}
 		}
-		a[minindex] = a[i];
-		a[i] = min;
+		a[minindex] = a[i]; //a[i]의 값을 a[minindex]에 넣어준다.
+		a[i] = min; //a[i]에 제일 작은 값을 넣어준다.
 	}
 
 	printf("----------------------------------------------------------------\n");
@@ -194,7 +194,7 @@ int selectionSort(int *a)
 	return 0;
 }
 
-int insertionSort(int *a)
+int insertionSort(int *a) // 삽입 정렬
 {
 	int i, j, t;
 
@@ -205,14 +205,14 @@ int insertionSort(int *a)
 
 	for(i = 1; i < MAX_ARRAY_SIZE; i++)
 	{
-		t = a[i];
+		t = a[i];//t에 a[i]의 값을 넣어준다.
 		j = i;
-		while (a[j-1] > t && j > 0)
+		while (a[j-1] > t && j > 0) //이전 값이 현재값보다 크거나, j가 0이 될때 까지 반복
 		{
-			a[j] = a[j-1];
-			j--;
+			a[j] = a[j-1]; //a[j]를 a[j-1]방향으로
+			j--; //계속 감소 시킨다.
 		}
-		a[j] = t;
+		a[j] = t;//while문을 탈출한 후에 나온 뒤 a[j]값에 t를 insert해준다.
 	}
 
 	printf("----------------------------------------------------------------\n");
@@ -221,7 +221,7 @@ int insertionSort(int *a)
 	return 0;
 }
 
-int bubbleSort(int *a)
+int bubbleSort(int *a) //버블 정렬
 {
 	int i, j, t;
 
@@ -234,11 +234,11 @@ int bubbleSort(int *a)
 	{
 		for (j = 0; j < MAX_ARRAY_SIZE; j++)
 		{
-			if (a[j-1] > a[j])
+			if (a[j-1] > a[j])//이전값이 현재 값보다 클 경우.
 			{
-				t = a[j-1];
-				a[j-1] = a[j];
-				a[j] = t;
+				t = a[j-1]; //이전값을 t에 넣어준다.
+				a[j-1] = a[j]; //현재값을 이전값에 넣어준다.
+				a[j] = t; //이전값을 현재값에 넣어준다.
 			}
 		}
 	}
@@ -249,7 +249,7 @@ int bubbleSort(int *a)
 	return 0;
 }
 
-int shellSort(int *a)
+int shellSort(int *a) //셸 정렬
 {
 	int i, j, k, h, v;
 
@@ -258,20 +258,20 @@ int shellSort(int *a)
 
 	printArray(a);
 
-	for (h = MAX_ARRAY_SIZE/2; h > 0; h /= 2)
+	for (h = MAX_ARRAY_SIZE/2; h > 0; h /= 2)//h의 폭을 1/2로 줄여간다.
 	{
 		for (i = 0; i < h; i++)
 		{
-			for(j = i + h; j < MAX_ARRAY_SIZE; j += h)
+			for(j = i + h; j < MAX_ARRAY_SIZE; j += h) //max_array_size 간격에 있는 요소들을 삽입정렬 한다.
 			{
 				v = a[j];
 				k = j;
-				while (k > h-1 && a[k-h] > v)
+				while (k > h-1 && a[k-h] > v)//현재값이 이전값보다 크거나 k가 h-1보다 작을때까지 반복
 				{
-					a[k] = a[k-h];
-					k -= h;
+					a[k] = a[k-h];//a[k]값에 a[k-h]를 넣는다.
+					k -= h; //k에서 h를 빼준값을 k에 넣는다.
 				}
-				a[k] = v;
+				a[k] = v; //a[k]에 v를 insert해준다.
 			}
 		}
 	}
@@ -288,24 +288,27 @@ int quickSort(int *a, int n)
 
 	if (n > 1)
 	{
-		v = a[n-1];
-		i = -1;
-		j = n - 1;
+		v = a[n-1]; //pivot
+		i = -1; //left
+		j = n - 1; // right
 
 		while(1)
 		{
-			while(a[++i] < v);
-			while(a[--j] > v);
+			while(a[++i] < v); //v보다 작은 key찾기(왼쪽>오른쪽)
+			while(a[--j] > v); //v보다 작은 key찾기(오른쪽>왼쪽)
 
 			if (i >= j) break;
+			/*a[i]와a[j]를 바꿔준다.*/
 			t = a[i];
 			a[i] = a[j];
 			a[j] = t;
 		}
+		/* a[i]와 a[n-1]을 바꿔준다*/
 		t = a[i];
 		a[i] = a[n-1];
 		a[n-1] = t;
 
+		/* i를 중심으로 left, right 구분*/
 		quickSort(a, i);
 		quickSort(a+i+1, n-i-1);
 	}
