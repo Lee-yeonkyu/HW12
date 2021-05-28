@@ -140,7 +140,7 @@ int initialize(int** a)
 	return 0;
 }
 
-int freeArray(int *a)
+int freeArray(int *a) // 배열 할당 해제.
 {
 	if(a != NULL)
 		free(a);
@@ -314,7 +314,7 @@ int quickSort(int *a, int n)
 	return 0;
 }
 
-int hashCode(int key) {
+int hashCode(int key) { //테이블의 최대크기-1의 값으로 해시코드를 지정해준다.
    return key % MAX_HASH_TABLE_SIZE;
 }
 
@@ -343,44 +343,44 @@ int hashing(int *a, int **ht) // 제산 방식 해싱 함수.
 	int index = -1; //인덱스 초기값
 	for (int i = 0; i < MAX_ARRAY_SIZE; i++)
 	{
-		key = a[i];
-		hashcode = hashCode(key);
+		key = a[i]; //a[i]에 있는 값을 key값으로 받는다.
+		hashcode = hashCode(key); //해시코드 함수를 이용해 hashcode를 받는다.
 		/*
 		printf("key = %d, hashcode = %d, hashtable[%d]=%d\n", key, hashcode, hashcode, hashtable[hashcode]);
 		*/
-		if (hashtable[hashcode] == -1)
+		if (hashtable[hashcode] == -1) //아직 아무것도 안들어가있다면.
 		{
-			hashtable[hashcode] = key;
-		} else 	{
+			hashtable[hashcode] = key; //테이블 내 버킷에 키값을 지정해준다.
+		} else 	{ // 오버플로우가 발생했을 경우.
 
-			index = hashcode;
+			index = hashcode; //해시코드를 인덱스에 넣어준다.
 
-			while(hashtable[index] != -1)
+			while(hashtable[index] != -1) //빈 버킷을 찾을때 까지 돌리기.
 			{
-				index = (++index) % MAX_HASH_TABLE_SIZE;
+				index = (++index) % MAX_HASH_TABLE_SIZE; // 선형 조사법을 통한 순서에 따른 인덱스값 구하기
 				/*
 				printf("index = %d\n", index);
 				*/
 			}
-			hashtable[index] = key;
+			hashtable[index] = key; //해시테이블에 정해진 버킷주소에 키값을 저장한다.
 		}
 	}
 
 	return 0;
 }
 
-int search(int *ht, int key)
+int search(int *ht, int key) // 키값에 대한 주소를 찾는 함수.
 {
-	int index = hashCode(key);
+	int index = hashCode(key); //key값에 대한 해시코드를 인덱스에 넣어준다.
 
-	if(ht[index] == key)
-		return index;
+	if(ht[index] == key) //인덱스 안의 값과 키값이 같다면
+		return index; // 인덱스를 리턴해준다.
 
-	while(ht[++index] != key)
+	while(ht[++index] != key) //인덱스 안의 값과 키값이 같을때 까지반복
 	{
-		index = index % MAX_HASH_TABLE_SIZE;
+		index = index % MAX_HASH_TABLE_SIZE; //인덱스를 1씩 늘려주면서 계산해서 인덱스 값을 순서대로 구한다.
 	}
-	return index;
+	return index; // 인덱스를 리턴해준다.
 }
 
 
